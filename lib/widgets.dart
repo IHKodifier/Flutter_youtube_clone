@@ -1,2 +1,9 @@
 export 'package:you_tube_clone/widgets/custom_bottom_navbar.dart';
 export 'package:you_tube_clone/widgets/custom_drawerl.dart';
+export 'package:flutter/material.dart';
+export 'package:you_tube_clone/data.dart';
+export 'package:you_tube_clone/widgets/video_card.dart';
+export 'package:miniplayer/miniplayer.dart';
+export 'package:you_tube_clone/widgets/topic_chips.dart';
+export 'widgets/video_info.dart';
+export 'widgets/video_actions.dart';

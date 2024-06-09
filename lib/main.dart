@@ -18,14 +18,11 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter YouTube Clone',
       debugShowCheckedModeBanner: false,
-      home: PixelPerfect(
-        assetPath: 'assets/yt_design.png',
-        child: const NavScreen(),
-      ),
+      home: const NavScreen(),
       theme: ThemeData(
-          brightness: Brightness.dark,
+          brightness: Brightness.light,
           bottomNavigationBarTheme:
-              BottomNavigationBarThemeData(selectedItemColor: Colors.white)),
+              BottomNavigationBarThemeData(selectedItemColor: Colors.black87)),
     );
   }
 }

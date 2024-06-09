@@ -54,13 +54,14 @@ final List<Video> videos = [
     viewCount: '10K',
     likes: '958',
     dislikes: '4',
+    
   ),
     // TODO: update
   Video(
     author: currentUser,
     id: 'vrPk6LB9bjo',
     title:
-        'Build Flutter Apps Fast with Riverpod, Firebase, Hooks, and Freezed Architecture',
+        'Build Flutter Apps Fast with Riverpod, Firebase, Hooks, and Freezed Architecture ',
     thumbnailUrl: 'https://i.ytimg.com/vi/vrPk6LB9bjo/0.jpg',
     duration: '22:06',
     timestamp: DateTime(2021, 2, 26),
@@ -119,4 +120,15 @@ final List<Video> suggestedVideos = [
     likes: '20k',
     dislikes: '85',
   ),
+];
+List<String> chips=[
+  'All',
+  'New to you',
+  'Computers',
+  'Flutter',
+  'Sports', 
+  'Aaana',
+  'Kabaaana',
+  'Titaaaana',
+  'New tro you',
 ];
