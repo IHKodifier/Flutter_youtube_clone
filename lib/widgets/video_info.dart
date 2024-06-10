@@ -16,7 +16,11 @@ class VideoInfo extends StatelessWidget {
           maxLines: 2,
           overflow: TextOverflow.ellipsis,),
           Text('${video.viewCount} • ${timeago.format(video.timestamp)} ',
-          style: Theme.of(context).textTheme.labelLarge,)
+          style: Theme.of(context).textTheme.labelLarge,),
+          const Divider(),
+          VideoActions(video: video),
+
+          
         ],
            ),
      );
