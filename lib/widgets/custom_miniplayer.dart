@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:miniplayer/miniplayer.dart';
 import 'package:you_tube_clone/screens/video_screen.dart';
 import 'package:you_tube_clone/widgets.dart';
 
@@ -25,6 +23,7 @@ class CustomMiniPlayer extends ConsumerStatefulWidget {
 
 class _CustomMiniPlayerState extends ConsumerState<CustomMiniPlayer> {
   double _opacity = 0.0;
+  double maxWidth = 0;
 
   @override
   void initState() {
@@ -33,29 +32,34 @@ class _CustomMiniPlayerState extends ConsumerState<CustomMiniPlayer> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
+    maxWidth = MediaQuery.of(context).size.width;
     return Miniplayer(
+      elevation: 15,
       controller: ref.read(miniPlayerControllerProvider),
       minHeight: widget._minHeight,
       maxHeight: MediaQuery.of(context).size.height,
       builder: (height, percentage) {
         if (widget.selectedVideo == null) return const SizedBox.shrink();
-        return AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
+
+        return Container(
+          width: 100,
+          height: height,
           color: Theme.of(context).scaffoldBackgroundColor,
-          child: percentage<0.6
-              ? _buildMiniPlayerContent(context)
+          child: percentage < 0.30
+              ? _buildMiniPlayerContent(context, height, percentage)
               : const VideoScreen(),
         );
       },
     );
   }
 
-  Widget _buildMiniPlayerContent(BuildContext context) {
+  Widget _buildMiniPlayerContent(BuildContext context, height, percentage) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        _buildMiniPlayerHeader(context),
+        Expanded(child: _buildMiniPlayerHeader(context, height, percentage)),
         const LinearProgressIndicator(
           value: 0.22,
           valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
@@ -64,50 +68,65 @@ class _CustomMiniPlayerState extends ConsumerState<CustomMiniPlayer> {
     );
   }
 
-  Widget _buildMiniPlayerHeader(BuildContext context) {
+  Widget _buildMiniPlayerHeader(BuildContext context, height, percentage) {
+    print('Heigh = $height\nPercentage = ${percentage * 100}');
     return Row(
       children: [
         Image.network(
           widget.selectedVideo!.thumbnailUrl,
-          height: widget._minHeight - 4,
-          width: 100,
+          // height: widget._minHeight + (percentage * 10) - 4,
+          width: widget._minHeight+ height * 2,
           fit: BoxFit.cover,
         ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Flexible(
-                  child: Text(
-                    widget.selectedVideo!.title,
-                    style: Theme.of(context).textTheme.labelMedium,
-                    overflow: TextOverflow.ellipsis,
+        percentage < 0.24 && height < maxWidth - 10
+            ? Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          widget.selectedVideo!.title,
+                          style: Theme.of(context).textTheme.labelMedium,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Flexible(
+                        child: Text(
+                          widget.selectedVideo!.author.username,
+                          style: Theme.of(context).textTheme.labelMedium,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Flexible(
-                  child: Text(
-                    widget.selectedVideo!.author.username,
-                    style: Theme.of(context).textTheme.labelMedium,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
-            ),
+              )
+            : Container(),
+        // percentage < 0.5
+        //     ?
+        Visibility(
+          visible: percentage < 0.24,
+          child: IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.play_arrow),
           ),
         ),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.play_arrow),
-        ),
-        IconButton(
-          onPressed: () {
-            ref.read(selectedeVideoProvider.notifier).state = null;
-          },
-          icon: const Icon(Icons.cancel),
-        ),
+        // :  Container(),
+        // percentage<0.5?
+        Visibility(
+          visible: percentage < 0.24,
+          child: IconButton(
+            onPressed: () {
+              ref.read(selectedeVideoProvider.notifier).state = null;
+            },
+            icon: const Icon(Icons.cancel),
+          ),
+        )
+
+        // :  Container(),
       ],
     );
   }
