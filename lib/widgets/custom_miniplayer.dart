@@ -7,7 +7,7 @@ final miniPlayerControllerProvider =
   (ref) => MiniplayerController(),
 );
 
-class CustomMiniPlayer extends ConsumerStatefulWidget {
+class CustomMiniPlayer extends ConsumerStatefulWidget  {
   const CustomMiniPlayer({
     super.key,
     required double minHeight,
@@ -22,13 +22,13 @@ class CustomMiniPlayer extends ConsumerStatefulWidget {
 }
 
 class _CustomMiniPlayerState extends ConsumerState<CustomMiniPlayer> {
-  double _opacity = 0.0;
+  // double _opacity = 0.0;
   double maxWidth = 0;
 
   @override
   void initState() {
     super.initState();
-    _opacity = 0.0;
+    // _opacity = 0.0;
   }
 
   @override
@@ -36,22 +36,11 @@ class _CustomMiniPlayerState extends ConsumerState<CustomMiniPlayer> {
   Widget build(BuildContext context) {
     maxWidth = MediaQuery.of(context).size.width;
     return Miniplayer(
-      elevation: 15,
+      elevation: 105,
       controller: ref.read(miniPlayerControllerProvider),
       minHeight: widget._minHeight,
       maxHeight: MediaQuery.of(context).size.height,
-      builder: (height, percentage) {
-        if (widget.selectedVideo == null) return const SizedBox.shrink();
-
-        return Container(
-          width: 100,
-          height: height,
-          color: Theme.of(context).scaffoldBackgroundColor,
-          child: percentage < 0.30
-              ? _buildMiniPlayerContent(context, height, percentage)
-              : const VideoScreen(),
-        );
-      },
+      builder: buildMiniPlayer,
     );
   }
 
@@ -59,7 +48,7 @@ class _CustomMiniPlayerState extends ConsumerState<CustomMiniPlayer> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Expanded(child: _buildMiniPlayerHeader(context, height, percentage)),
+        Expanded(child: _buildMiniPlayerThumbnail(context, height, percentage)),
         const LinearProgressIndicator(
           value: 0.22,
           valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
@@ -68,14 +57,14 @@ class _CustomMiniPlayerState extends ConsumerState<CustomMiniPlayer> {
     );
   }
 
-  Widget _buildMiniPlayerHeader(BuildContext context, height, percentage) {
-    print('Heigh = $height\nPercentage = ${percentage * 100}');
+  Widget _buildMiniPlayerThumbnail(BuildContext context, height, percentage) {
+    print('H= $height %AGE= ${percentage * 100}');
     return Row(
       children: [
         Image.network(
           widget.selectedVideo!.thumbnailUrl,
           // height: widget._minHeight + (percentage * 10) - 4,
-          width: widget._minHeight+ height * 2,
+          width: height > widget._minHeight+100 ? maxWidth-4 : widget._minHeight + height * 2,
           fit: BoxFit.cover,
         ),
         percentage < 0.24 && height < maxWidth - 10
@@ -108,7 +97,7 @@ class _CustomMiniPlayerState extends ConsumerState<CustomMiniPlayer> {
         // percentage < 0.5
         //     ?
         Visibility(
-          visible: percentage < 0.24,
+          visible: height<widget._minHeight+50,
           child: IconButton(
             onPressed: () {},
             icon: const Icon(Icons.play_arrow),
@@ -117,7 +106,7 @@ class _CustomMiniPlayerState extends ConsumerState<CustomMiniPlayer> {
         // :  Container(),
         // percentage<0.5?
         Visibility(
-          visible: percentage < 0.24,
+          visible: height < widget._minHeight + 50,
           child: IconButton(
             onPressed: () {
               ref.read(selectedeVideoProvider.notifier).state = null;
@@ -128,6 +117,19 @@ class _CustomMiniPlayerState extends ConsumerState<CustomMiniPlayer> {
 
         // :  Container(),
       ],
+    );
+  }
+
+  Widget buildMiniPlayer(double height, double percentage) {
+    if (widget.selectedVideo == null) return const SizedBox.shrink();
+
+    return Container(
+      width: 100,
+      height: height,
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: percentage < 0.30
+          ? _buildMiniPlayerContent(context, height, percentage)
+          : const VideoScreen(),
     );
   }
 }

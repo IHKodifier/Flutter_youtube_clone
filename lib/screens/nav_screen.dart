@@ -16,7 +16,7 @@ class NavScreen extends ConsumerStatefulWidget {
 }
 
 class _NavScreenState extends ConsumerState<NavScreen> {
-  final _minHeight = 60.0;
+  final _minHeight = 70.0;
   final screens = [
     const HomeScreen(),
     const Scaffold(
@@ -44,7 +44,7 @@ class _NavScreenState extends ConsumerState<NavScreen> {
   @override
   Widget build(BuildContext context) {
     final selectedVideo = ref.watch(selectedeVideoProvider);
-    bool isLarge = MediaQuery.of(context).size.width > 600;
+    bool isLargeDisplay = MediaQuery.of(context).size.width > 600;
     Widget selectedPage = Consumer(
       builder: (context, ref, child) =>
           screens[ref.watch(selectedindexProvider)],
@@ -91,7 +91,7 @@ class _NavScreenState extends ConsumerState<NavScreen> {
             ),
           )),
       ),
-      bottomNavigationBar: !isLarge ? const CustomBottomNavigationBar() : null,
+      bottomNavigationBar: !isLargeDisplay ? const CustomBottomNavigationBar() : null,
     );
   }
 }
