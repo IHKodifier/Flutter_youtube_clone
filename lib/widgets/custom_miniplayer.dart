@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:you_tube_clone/screens/video_screen.dart';
 import 'package:you_tube_clone/widgets.dart';
@@ -32,7 +34,6 @@ class _CustomMiniPlayerState extends ConsumerState<CustomMiniPlayer> {
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
     maxWidth = MediaQuery.of(context).size.width;
     return Miniplayer(
@@ -40,6 +41,7 @@ class _CustomMiniPlayerState extends ConsumerState<CustomMiniPlayer> {
       controller: ref.read(miniPlayerControllerProvider),
       minHeight: widget._minHeight,
       maxHeight: MediaQuery.of(context).size.height,
+      curve: Curves.bounceInOut,
       builder: buildMiniPlayer,
     );
   }
@@ -58,14 +60,15 @@ class _CustomMiniPlayerState extends ConsumerState<CustomMiniPlayer> {
   }
 
   Widget _buildMiniPlayerThumbnail(BuildContext context, height, percentage) {
-    print('H= $height %AGE= ${percentage * 100}');
+    print('H= $height %AGE= ${(percentage * 100).toStringAsFixed(2)}');
     return Row(
       children: [
         Image.network(
           widget.selectedVideo!.thumbnailUrl,
           // height: widget._minHeight + (percentage * 10) - 4,
-          width: height > widget._minHeight+100 ? maxWidth-4 : widget._minHeight + height * 2,
-          fit: BoxFit.cover,
+          width: height > widget._minHeight+100 ? maxWidth-6 : widget._minHeight + height * 2,
+          fit: height>widget._minHeight?
+          BoxFit.fitWidth:BoxFit.cover,
         ),
         percentage < 0.24 && height < maxWidth - 10
             ? Expanded(
@@ -127,7 +130,7 @@ class _CustomMiniPlayerState extends ConsumerState<CustomMiniPlayer> {
       width: 100,
       height: height,
       color: Theme.of(context).scaffoldBackgroundColor,
-      child: percentage < 0.30
+      child: percentage < 0.20
           ? _buildMiniPlayerContent(context, height, percentage)
           : const VideoScreen(),
     );

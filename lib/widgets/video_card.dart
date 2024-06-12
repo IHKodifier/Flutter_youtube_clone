@@ -15,7 +15,10 @@ class VideoCard extends ConsumerWidget {
       onTap: () {
         ref.read(selectedeVideoProvider.notifier).state = video;
         ref.read(miniPlayerControllerProvider).animateToHeight(
+          // height: 250,
               state: PanelState.MAX,
+              // duration: Duration(microseconds: 120,
+              // ),
             );
          
       },
