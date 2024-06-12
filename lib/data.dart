@@ -11,7 +11,6 @@ class User {
 }
 
 const User currentUser = User(
- 
   username: 'Google',
   profileImageUrl:
       'https://yt3.googleusercontent.com/viNp17XpEF-AwWwOZSj_TvgobO1CGmUUgcTtQoAG40YaYctYMoUqaRup0rTxxxfQvWw3MvhXesw=s176-c-k-c0x00ffffff-no-rj',
@@ -54,9 +53,8 @@ final List<Video> videos = [
     viewCount: '10K',
     likes: '958',
     dislikes: '4',
-    
   ),
-    // TODO: update
+  // TODO: update
   Video(
     author: currentUser,
     id: 'vrPk6LB9bjo',
@@ -69,7 +67,7 @@ final List<Video> videos = [
     likes: '485',
     dislikes: '8',
   ),
-    // TODO: update
+  // TODO: update
   Video(
     id: 'ilX5hnH8XoI',
     author: currentUser,
@@ -82,9 +80,24 @@ final List<Video> videos = [
     dislikes: '4',
   ),
 ];
+final List<Video> shorts = [
+  Video(
+    id: 'kCBKCcRbOwY',
+    author: currentUser,
+    title: 'Stability test of Toyota Prado VS Ford Endeavour',
+    thumbnailUrl: 'https://i.ytimg.com/vi/kCBKCcRbOwY/oardefault.jpg?sqp=-oaymwEdCJUDENAFSFWQAgHyq4qpAwwIARUAAIhCcAHAAQY=&rs=AOn4CLDZnpyPDc9CZoWjnON0f7E4THtCXA',
+    duration: '01:59',
+    timestamp: DateTime(2021, 3, 24),
+    viewCount: '18K',
+    likes: '1k',
+    dislikes: '4',
+  ),
+
+
+];
 
 final List<Video> suggestedVideos = [
-    // TODO: update
+  // TODO: update
   Video(
     id: 'rJKN_880b-M',
     author: currentUser,
@@ -96,7 +109,7 @@ final List<Video> suggestedVideos = [
     likes: '1.9k',
     dislikes: '7',
   ),
-    // TODO: update
+  // TODO: update
   Video(
     id: 'HvLb5gdUfDE',
     author: currentUser,
@@ -108,7 +121,7 @@ final List<Video> suggestedVideos = [
     likes: '9.3K',
     dislikes: '45',
   ),
-    // TODO: update
+  // TODO: update
   Video(
     id: 'h-igXZCCrrc',
     author: currentUser,
@@ -121,12 +134,12 @@ final List<Video> suggestedVideos = [
     dislikes: '85',
   ),
 ];
-List<String> chips=[
+List<String> chips = [
   'All',
   'New to you',
   'Computers',
   'Flutter',
-  'Sports', 
+  'Sports',
   'Aaana',
   'Kabaaana',
   'Titaaaana',

@@ -19,11 +19,12 @@ class _NavScreenState extends ConsumerState<NavScreen> {
   final _minHeight = 70.0;
   final screens = [
     const HomeScreen(),
-    const Scaffold(
-      body: Center(
-        child: Text('Explore'),
-      ),
-    ),
+    // const Scaffold(
+    //   body: Center(
+    //     child: Text('Explore'),
+    //   ),
+    // ),
+    const ShortsScreen(),
     const Scaffold(
       body: Center(
         child: Text('Add'),

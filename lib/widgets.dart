@@ -7,3 +7,4 @@ export 'package:miniplayer/miniplayer.dart';
 export 'package:you_tube_clone/widgets/topic_chips.dart';
 export 'widgets/video_info.dart';
 export 'widgets/video_actions.dart';
+export 'package:you_tube_clone/screens/shorts_screen.dart';

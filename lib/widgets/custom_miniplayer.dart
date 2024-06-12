@@ -9,7 +9,7 @@ final miniPlayerControllerProvider =
   (ref) => MiniplayerController(),
 );
 
-class CustomMiniPlayer extends ConsumerStatefulWidget  {
+class CustomMiniPlayer extends ConsumerStatefulWidget {
   const CustomMiniPlayer({
     super.key,
     required double minHeight,
@@ -26,6 +26,7 @@ class CustomMiniPlayer extends ConsumerStatefulWidget  {
 class _CustomMiniPlayerState extends ConsumerState<CustomMiniPlayer> {
   // double _opacity = 0.0;
   double maxWidth = 0;
+  double _currentWidth = 150;
 
   @override
   void initState() {
@@ -37,7 +38,7 @@ class _CustomMiniPlayerState extends ConsumerState<CustomMiniPlayer> {
   Widget build(BuildContext context) {
     maxWidth = MediaQuery.of(context).size.width;
     return Miniplayer(
-      elevation: 105,
+      elevation: 15,
       controller: ref.read(miniPlayerControllerProvider),
       minHeight: widget._minHeight,
       maxHeight: MediaQuery.of(context).size.height,
@@ -61,16 +62,28 @@ class _CustomMiniPlayerState extends ConsumerState<CustomMiniPlayer> {
 
   Widget _buildMiniPlayerThumbnail(BuildContext context, height, percentage) {
     print('H= $height %AGE= ${(percentage * 100).toStringAsFixed(2)}');
+     if (height > widget._minHeight + 1) {
+      // setState(() {
+        _currentWidth =
+            maxWidth-8; // Update the width to maxWidth when the condition is met 
+      // });
+    } else {
+      // setState(() {
+        _currentWidth = widget._minHeight +
+            height; // Otherwise, set it based on the height
+      // });
+    }
     return Row(
       children: [
-        Image.network(
-          widget.selectedVideo!.thumbnailUrl,
-          // height: widget._minHeight + (percentage * 10) - 4,
-          width: height > widget._minHeight+100 ? maxWidth-6 : widget._minHeight + height * 2,
-          fit: height>widget._minHeight?
-          BoxFit.fitWidth:BoxFit.cover,
+        AnimatedContainer(
+          duration: Duration(milliseconds: 600), // Set the  animation duration
+          width: _currentWidth, // Use the state variable for width
+          child: Image.network(
+            widget.selectedVideo!.thumbnailUrl,
+            fit: BoxFit.cover,
+          ),
         ),
-        percentage < 0.24 && height < maxWidth - 10
+        percentage < 0.24 && _currentWidth < maxWidth - 10
             ? Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -97,26 +110,29 @@ class _CustomMiniPlayerState extends ConsumerState<CustomMiniPlayer> {
                 ),
               )
             : Container(),
-        // percentage < 0.5
-        //     ?
-        Visibility(
-          visible: height<widget._minHeight+50,
-          child: IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.play_arrow),
-          ),
-        ),
-        // :  Container(),
-        // percentage<0.5?
-        Visibility(
-          visible: height < widget._minHeight + 50,
-          child: IconButton(
+  
+      _currentWidth < maxWidth - 10?
+        Expanded(
+          child: Row(mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+             
+              Spacer(),
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.play_arrow),
+              ),
+              IconButton(
             onPressed: () {
               ref.read(selectedeVideoProvider.notifier).state = null;
             },
             icon: const Icon(Icons.cancel),
+          )
+            ],
           ),
-        )
+        ):Container(),
+        // :  Container(),
+        // percentage<0.5?
+        
 
         // :  Container(),
       ],
