@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:you_tube_clone/screens/home_screen.dart';
 import 'package:you_tube_clone/widgets.dart';
 
 class VideoScreen extends ConsumerStatefulWidget {
@@ -14,11 +15,19 @@ class _VideoScreenState extends ConsumerState<VideoScreen> {
   bool isDisliked = false;
   bool isSubscribed = false;
   late List<Video> suggestedVids;
+  
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
      suggestedVids = suggestedVideos;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Initialize variables that depend on InheritedWidgets here
+    // suggestedVids = ref.watch(suggestedVideos);
   }
 
   @override
@@ -73,7 +82,9 @@ class _VideoScreenState extends ConsumerState<VideoScreen> {
                 delegate: SliverChildBuilderDelegate((context, index) {
                   final video = suggestedVids[index];
               
-                  return VideoCard(video);
+                  return VideoCard(
+                    video,
+                    animationController: ref.read(rotationAnimationControllerProvider),);
                 }, childCount: suggestedVids.length),
               ),
             ),

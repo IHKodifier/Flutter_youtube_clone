@@ -25,8 +25,9 @@ class CustomMiniPlayer extends ConsumerStatefulWidget {
 
 class _CustomMiniPlayerState extends ConsumerState<CustomMiniPlayer> {
   // double _opacity = 0.0;
+  double minWidth = 100;
   double maxWidth = 0;
-  double _currentWidth = 150;
+  double _currentWidth = 100;
 
   @override
   void initState() {
@@ -47,6 +48,29 @@ class _CustomMiniPlayerState extends ConsumerState<CustomMiniPlayer> {
     );
   }
 
+  Widget buildMiniPlayer(double height, double percentage) {
+    if (widget.selectedVideo == null) return const SizedBox.shrink();
+
+    return Container(
+      width: _calculateWidth(percentage, height),
+      height: height,
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: percentage < 0.24
+          ? _buildMiniPlayerContent(context, height, percentage)
+          : const VideoScreen(),
+    );
+  }
+
+  double _calculateWidth(double percentage, double height) {
+    if (percentage >= 24) {
+      return maxWidth; // Full width for VideoScreen
+    } else if (height < widget._minHeight + 10.0) {
+      return minWidth; // Adjust width to maxWidth-8 when height is 0.0
+    } else {
+      return widget._minHeight + height; // Min height + current height
+    }
+  }
+
   Widget _buildMiniPlayerContent(BuildContext context, height, percentage) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -62,15 +86,12 @@ class _CustomMiniPlayerState extends ConsumerState<CustomMiniPlayer> {
 
   Widget _buildMiniPlayerThumbnail(BuildContext context, height, percentage) {
     print('H= $height %AGE= ${(percentage * 100).toStringAsFixed(2)}');
-     if (height > widget._minHeight + 1) {
+    if (height > widget._minHeight + 1) {
       // setState(() {
-        _currentWidth =
-            maxWidth-8; // Update the width to maxWidth when the condition is met 
+      _currentWidth = maxWidth - 8;
       // });
     } else {
-      // setState(() {
-        _currentWidth = widget._minHeight +
-            height; // Otherwise, set it based on the height
+      _currentWidth = widget._minHeight + height;
       // });
     }
     return Row(
@@ -110,45 +131,32 @@ class _CustomMiniPlayerState extends ConsumerState<CustomMiniPlayer> {
                 ),
               )
             : Container(),
-  
-      _currentWidth < maxWidth - 10?
-        Expanded(
-          child: Row(mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-             
-              Spacer(),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.play_arrow),
-              ),
-              IconButton(
-            onPressed: () {
-              ref.read(selectedeVideoProvider.notifier).state = null;
-            },
-            icon: const Icon(Icons.cancel),
-          )
-            ],
-          ),
-        ):Container(),
+
+        _currentWidth < maxWidth - 10
+            ? Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Spacer(),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.play_arrow),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        ref.read(selectedeVideoProvider.notifier).state = null;
+                      },
+                      icon: const Icon(Icons.cancel),
+                    )
+                  ],
+                ),
+              )
+            : Container(),
         // :  Container(),
         // percentage<0.5?
-        
 
         // :  Container(),
       ],
-    );
-  }
-
-  Widget buildMiniPlayer(double height, double percentage) {
-    if (widget.selectedVideo == null) return const SizedBox.shrink();
-
-    return Container(
-      width: 100,
-      height: height,
-      color: Theme.of(context).scaffoldBackgroundColor,
-      child: percentage < 0.20
-          ? _buildMiniPlayerContent(context, height, percentage)
-          : const VideoScreen(),
     );
   }
 }

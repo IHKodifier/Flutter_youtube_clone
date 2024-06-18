@@ -92,6 +92,17 @@ final List<Video> shorts = [
     likes: '1k',
     dislikes: '4',
   ),
+  Video(
+    id: 'kCBKCcRbOwY',
+    author: currentUser,
+    title: 'Short 2',
+    thumbnailUrl: '',
+    duration: '01:32',
+    timestamp: DateTime(2019, 1, 11),
+    viewCount: '41K',
+    likes: '9k',
+    dislikes: '53',
+  ),
 
 
 ];

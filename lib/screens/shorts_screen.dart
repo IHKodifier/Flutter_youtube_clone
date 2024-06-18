@@ -6,6 +6,14 @@ class ShortsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container();
+    final controller = PageController(initialPage: 0,
+    );
+    return CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+          child: Text('shorts'),
+        )
+      ],
+    );
   }
 }

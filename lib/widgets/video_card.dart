@@ -6,27 +6,31 @@ import 'package:you_tube_clone/widgets/custom_miniplayer.dart';
 final selectedeVideoProvider = StateProvider<Video?>((ref) => null);
 
 class VideoCard extends ConsumerWidget {
-  const VideoCard(this.video, {super.key});
+  const VideoCard(this.video, {required this.animationController, super.key});
   final Video video;
+  final AnimationController animationController;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: () {
-        ref.read(selectedeVideoProvider.notifier).state = video;
-        ref.read(miniPlayerControllerProvider).animateToHeight(
-          // height: 250,
-              state: PanelState.MAX,
-              // duration: Duration(microseconds: 120,
-              // ),
-            );
-         
-      },
+      onTap:null,
+      // () {
+      //   // animationController.forward();
+      //   print('forwarding the animation');
+
+      //   ref.read(selectedeVideoProvider.notifier).state = video;
+      //   // ref.read(miniPlayerControllerProvider).animateToHeight(
+      //   //       // height: 250,
+      //   //       state: PanelState.MAX,
+      //   //       // duration: Duration(microseconds: 120,
+      //   //       // ),
+      //   //     );
+      // },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 8),
         child: Card(
           surfaceTintColor: Colors.grey.shade50,
-         shadowColor: Colors.red,
+          shadowColor: Colors.red,
           elevation: 5,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
